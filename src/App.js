@@ -1,26 +1,26 @@
-import './App.css';
+import   './App.css';
 import Table from 'react-bootstrap/Table'
 import { Component } from 'react'
 import tableStore from './storage/store'
 import { addData, deleteData } from './storage/action'
 
-class App extends Component{
+class App extends Component {
 
-  state={
-    list:[],
-    data:{}
+  state = {
+    list: [],
+    data: {}
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateListData()
     tableStore.addChangeListener(this.updateListData)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     tableStore.removeChangeListener(this.updateListData)
   }
 
-  updateListData=()=>{
+  updateListData = () => {
     let list = tableStore.getTableData()
     console.log(list)
     this.setState({
@@ -28,7 +28,7 @@ class App extends Component{
     })
   }
 
-  updateData =(event)=>{
+  updateData = (event) => {
     const { name, value } = event.target
     let data = this.state.data
     data[name] = value
@@ -38,97 +38,111 @@ class App extends Component{
     console.log(data)
   }
 
-  sentDataToStore = () =>{
+  sentDataToStore = () => {
     let { data } = this.state
-    console.log('Hello',data)
+    console.log('Hello', data)
     addData(data)
     this.setState({
-      data : {}
+      data: {}
     })
   }
 
-  checkValidStatus = () =>{
+  checkValidStatus = () => {
     let { data } = this.state
-    if(data && data.name && data.designation && data.company && data.location){
+    if (data && data.name && data.designation && data.company && data.location) {
       return false
-    }else{
+    } else {
       return true
     }
   }
 
-  clearData =() =>{
-      this.setState({
-        data:{}
-      })
+  clearData = () => {
+    this.setState({
+      data: {}
+    })
   }
 
-  delete = (index) =>{
+  delete = (index) => {
     console.log(index)
     deleteData(index)
   }
 
-  render(){
+  render() {
     const { data } = this.state
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1>Welcome to Data entry</h1>
-          <form onSubmit={event => {event.preventDefault(); this.sentDataToStore() }} style={{marginLeft:'20px',paddingLeft:'20px', marginTop:'10vh', alignSelf:'flex-start'}}>
-          <legend style={{color:'#d3d3d3',marginBottom :'20px'}}>Please enter the following detail:</legend>
-          <div style={{marginTop:'20px'}}>
-            Name :<input name='name' onChange={this.updateData} type='text' style={{marginLeft:'170px'}} value={data && data.name ? data.name : ''}/>
+      <div className="App App-header">
+        <div className="mt-5 mb-5">
+        <h1  className="ui-sans-serif">Welcome to Data entry</h1>
+        </div>
+          <p className="mb-5 ui-sans-serif" style={{color:'#d3d3d3',alignSelf:'flex-start',marginLeft:'70px'}}>Please enter the following detail:</p>
+        <form  onSubmit={event => {event.preventDefault(); this.sentDataToStore() }}  style={{width:'60%', alignSelf:'flex-start',marginLeft:'70px'}}>
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label ui-sans-serif">Name:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control"  onChange={this.updateData} name='name'
+              value={data && data.name ? data.name : ''} />
+            </div>
           </div>
-          <div style={{marginTop:'20px'}}>
-            Designation :<input name='designation' onChange={this.updateData} type='text' value={data && data.designation ? data.designation : ''} style={{marginLeft:'110px'}}/>
+          <div class="form-group row mt-3 ">
+            <label  class="col-sm-2 col-form-label  ui-sans-serif">Designation:</label>
+            <div class="col-sm-10">
+              <input type="text" name='designation'  onChange={this.updateData}
+              value={data && data.designation ? data.designation : ''} class="form-control"/>
+            </div>
           </div>
-          <div style={{marginTop:'20px'}}>
-            Organisation Name : <input type='text' name ='company' onChange={this.updateData} value={data && data.company ? data.company : ''} style={{marginLeft:'30px'}}/>
+          <div class="form-group row mt-3">
+            <label  class="col-sm-2 col-form-label  ui-sans-serif">Company:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" onChange={this.updateData} value={data && data.company ? data.company : ''}  name ='company'/>
+            </div>
           </div>
-          <div style={{marginTop:'20px'}}>
-            Location : <input type='text' name='location' onChange={this.updateData} value={data && data.location ? data.location : ''} style={{marginLeft:'135px'}}/>
+          <div class="form-group row mt-3 ">
+            <label  class="col-sm-2 col-form-label  ui-sans-serif">Location:</label>
+            <div class="col-sm-10">
+              <input  name='location'  onChange={this.updateData} value={data && data.location ? data.location : ''}  type="text" class="form-control" />
+            </div>
           </div>
-          <div style={{marginTop:"20px"}}>
-            <input type='reset' onClick={this.clearData} name='clear' style={{marginLeft:'50px',  backgroundColor:'black',color:'GrayText'}}/>
-            <button   style={{marginLeft:'50px',  backgroundColor:'black',color:'GrayText'}}>Submit</button>
-          </div>  
+          <div className="d-flex-row mt-4">
+            <input type='reset' className="btn btn-primary ui-sans-serif" onClick={this.clearData} name='clear' style={{ marginLeft: '50px',width:'15%',fontWeight:'400',fontSize:18,
+              color: '#fff' }} />
+            <button  className="btn btn-secondary ui-sans-serif" style={{ marginLeft: '50px', width:'15%',fontWeight:'400',fontSize:18, backgroundColor:!this.checkValidStatus()? '#000' : '#a3a3a3'  , color: !this.checkValidStatus()? '#fff' : '#000' }}>Submit</button>
+          </div> 
         </form>
-        { this.state.list && this.state.list.length > 0 && 
-              <div style={{width : '100%'}}>
-                <label style={{alignSelf:'flex-start', marginTop : '40px', marginLeft:'10px', fontSize : '35px'}}>
-                  Data entered
+        { this.state.list && this.state.list.length > 0 &&
+          <div style={{ width: '100%', }}>
+            <label className=' ui-sans-serif' style={{ alignSelf: 'flex-start', marginTop: '40px', marginLeft: '10px', fontSize: '35px' }}>
+              Data entered
                 </label>
-                <Table striped bordered hover variant="dark" style={{marginTop :'20px'}}>
-                  <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Designation</th>
-                        <th>Company</th>
-                        <th>Location</th>             
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        this.state.list.map((item, index)=>(
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item.name}</td>
-                          <td>{item.designation}</td>
-                          <td>{item.company}</td>
-                          <td>{item.location}</td>
-                          <td onClick={()=>this.delete(index)} style={{textDecoration:'underline', color :'red', fontFamily:'WorkSans-Regular'}}>Delete</td>
-                        </tr>
-                        ))
-                      }
-          
-                    </tbody>
-                  </Table>
-              </div>
+            <Table striped bordered hover variant="dark" style={{ marginTop: '20px' }}>
+              <thead>
+                <tr>
+                  <th className=' ui-sans-serif'>Id</th>
+                  <th className=' ui-sans-serif'>Name</th>
+                  <th className=' ui-sans-serif'>Designation</th>
+                  <th className=' ui-sans-serif'>Company</th>
+                  <th className=' ui-sans-serif' >Location</th>
+                  <th className=' ui-sans-serif' >Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  this.state.list.map((item, index) => (
+                    <tr key={index}>
+                      <td className=' ui-sans-serif'>{index + 1}</td>
+                      <td className=' ui-sans-serif'>{item.name}</td>
+                      <td className=' ui-sans-serif'>{item.designation}</td>
+                      <td className=' ui-sans-serif'>{item.company}</td>
+                      <td className=' ui-sans-serif'>{item.location}</td>
+                      <td onClick={() => this.delete(index)} style={{ textDecoration: 'underline', color: 'red', fontFamily: 'WorkSans-Regular' }}>Delete</td>
+                    </tr>
+                  ))
+                }
+
+              </tbody>
+            </Table>
+          </div>
         }
 
-          {/* <Alert/> */}
-        </header>
       </div>
     );
   }

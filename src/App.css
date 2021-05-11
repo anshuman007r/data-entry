@@ -6,6 +6,9 @@
   height: 40vmin;
   pointer-events: none;
 }
+.ui-sans-serif{
+  font-family: ui-sans-serif;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
