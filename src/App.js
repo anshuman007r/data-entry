@@ -92,36 +92,41 @@ class App extends Component{
             <button   style={{marginLeft:'50px',  backgroundColor:'black',color:'GrayText'}}>Submit</button>
           </div>  
         </form>
-        <div style={{alignSelf:'flex-start', marginTop : '40px', marginLeft:'10px', fontSize : '35px'}}>
-          Data entered
-        </div>
-        <Table striped bordered hover variant="dark" style={{marginTop :'20px'}}>
-          <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Company</th>
-                <th>Location</th>             
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                this.state.list.map((item, index)=>(
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
-                  <td>{item.designation}</td>
-                  <td>{item.company}</td>
-                  <td>{item.location}</td>
-                  <td onClick={()=>this.delete(index)} style={{textDecoration:'underline', color :'red', fontFamily:'WorkSans-Regular'}}>Delete</td>
-                </tr>
-                ))
-              }
-  
-            </tbody>
-          </Table>
+        { this.state.list && this.state.list.length > 0 && 
+              <div style={{width : '100%'}}>
+                <label style={{alignSelf:'flex-start', marginTop : '40px', marginLeft:'10px', fontSize : '35px'}}>
+                  Data entered
+                </label>
+                <Table striped bordered hover variant="dark" style={{marginTop :'20px'}}>
+                  <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Company</th>
+                        <th>Location</th>             
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.list.map((item, index)=>(
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item.name}</td>
+                          <td>{item.designation}</td>
+                          <td>{item.company}</td>
+                          <td>{item.location}</td>
+                          <td onClick={()=>this.delete(index)} style={{textDecoration:'underline', color :'red', fontFamily:'WorkSans-Regular'}}>Delete</td>
+                        </tr>
+                        ))
+                      }
+          
+                    </tbody>
+                  </Table>
+              </div>
+        }
+
           {/* <Alert/> */}
         </header>
       </div>
